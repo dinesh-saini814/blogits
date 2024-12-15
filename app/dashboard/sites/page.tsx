@@ -8,12 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { FileIcon, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import DefaultImage from "@/public/default.png";
 import Image from "next/image";
+import EmptyState from "@/app/components/dashboard/EmptyState";
 
 async function fetchSites(userId: string) {
   const data = await prisma.site.findMany({
@@ -46,38 +47,26 @@ export default async function SitesRoute() {
         </Button>
       </div>
       {data === undefined || data.length === 0 ? (
-        <div className="flex-center flex-col rounded-md border border-dashed p-8 mt-6 text-center animate-in fade-in-50">
-          <div className="flex-center size-20 rounded-full bg-primary/10">
-            <FileIcon className="size-10 text-primary" />
-          </div>
-          <h2 className="mt-6 text-lg font-semibold">
-            You don&apos;t have any site created
-          </h2>
-          <p className="mb-8 mt-2 text-center text-sm leading-5 text-muted-foreground max-w-sm mx-auto">
-            You currently dont have any sites please create a site to get
-            started
-          </p>
-          <Button asChild>
-            <Link href={"/dashboard/sites/new"}>
-              <PlusCircle className="mr-2 size-4" />
-              Create Site
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          title="You don't have any site created"
+          description="You currently dont have any sites please create a site to get started"
+          buttonText=" Create Site"
+          buttonLink="/dashboard/sites/new"
+        />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 mt-5">
           {data.map((item) => (
             <Card key={item.id} className="overflow-hidden">
               <Image
                 src={item.imageUrl ?? DefaultImage}
                 alt={item.name}
-                className="rounded-lg object-cover w-full h-[200px]"
+                className=" object-cover w-full h-[200px]"
                 width={400}
                 height={200}
               />
               <CardHeader>
-                <CardTitle>{item.name}</CardTitle>
-                <CardDescription className="overflow-hidden text-ellipsis ">
+                <CardTitle className="truncate">{item.name}</CardTitle>
+                <CardDescription className=" line-clamp-2">
                   {item.description}
                 </CardDescription>
               </CardHeader>

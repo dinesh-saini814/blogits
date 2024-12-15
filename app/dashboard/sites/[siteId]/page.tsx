@@ -1,7 +1,40 @@
+import EmptyState from "@/app/components/dashboard/EmptyState";
 import prisma from "@/app/utils/db";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Book, FileIcon, PlusCircle, Settings } from "lucide-react";
+import {
+  Book,
+  EditIcon,
+  MoreHorizontal,
+  PlusCircle,
+  Settings,
+  Trash2,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -25,11 +58,11 @@ async function getData(userId: string, siteId: string) {
   return data;
 }
 
-export default async function SiteIdRoute({
-  params,
-}: {
-  params: { siteId: string };
-}) {
+interface Params {
+  siteId: string;
+}
+
+export default async function SiteIdRoute({ params }: { params: Params }) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -48,7 +81,7 @@ export default async function SiteIdRoute({
           </Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link href={"#"}>
+          <Link href={`/dashboard/sites/${params.siteId}/settings`}>
             <Settings className="mr-2 size-4" />
             Settings
           </Link>
@@ -61,26 +94,95 @@ export default async function SiteIdRoute({
         </Button>
       </div>
       {data === undefined || data.length === 0 ? (
-        <div className="flex-center flex-col rounded-md border border-dashed p-8 mt-6 text-center animate-in fade-in-50">
-          <div className="flex-center size-20 rounded-full bg-primary/10">
-            <FileIcon className="size-10 text-primary" />
-          </div>
-          <h2 className="mt-6 text-lg font-semibold">
-            You don&apos;t have any Articals created
-          </h2>
-          <p className="mb-8 mt-2 text-center text-sm leading-5 text-muted-foreground max-w-sm mx-auto">
-            You currently dont have any Articals please create a Artical to get
-            started
-          </p>
-          <Button asChild>
-            <Link href={`/dashboard/sites/${params.siteId}/create`}>
-              <PlusCircle className="mr-2 size-4" />
-              Create Artical
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          title="You don't have any Articals created"
+          description="You currently dont have any Articals please create a Artical to get
+            started"
+          buttonText="Create Artical"
+          buttonLink={`/dashboard/sites/${params.siteId}/create`}
+        />
       ) : (
-        <h1>here is data</h1>
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Articals</CardTitle>
+            <CardDescription>
+              manage your Articals in a simple way
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>image</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <Image
+                        src={item.imageUrl}
+                        alt="articla image"
+                        width={96}
+                        height={96}
+                        className="size-24 rounded-md object-cover"
+                      />
+                    </TableCell>
+                    <TableCell className="font-medium capitalize">
+                      {item.title}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className="bg-green-500/10 text-green-500 font-bold "
+                      >
+                        Published
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {new Intl.DateTimeFormat("en-US", {
+                        dateStyle: "medium",
+                      }).format(new Date(item.createdAt))}
+                    </TableCell>
+                    <TableCell className="text-end">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="size-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem asChild>
+                            <Link
+                              href={`/dashboard/sites/${params.siteId}/${item.id}`}
+                            >
+                              <EditIcon />
+                              Edit
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link
+                              href={`/dashboard/sites/${params.siteId}/${item.id}/delete`}
+                            >
+                              <Trash2 />
+                              Delete
+                            </Link>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       )}
     </>
   );
