@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import React, { useActionState } from "react";
+import React, { useActionState, useState } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { siteSchema } from "@/app/utils/zodSchemas";
@@ -30,6 +30,19 @@ const NewSiteRoute = () => {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
+  const [subdirectoryError, setSubdirectoryError] = useState<string>("");
+
+  // Handler for subdirectory input change
+  const handleSubdirectoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (/\s/.test(value)) {
+      setSubdirectoryError("Subdirectory must not contain spaces.");
+    } else {
+      setSubdirectoryError("");
+    }
+  };
 
   return (
     <div className="flex-center flex-1 flex-col ">
@@ -58,9 +71,11 @@ const NewSiteRoute = () => {
                   key={fields.subdirectory.key}
                   defaultValue={fields.subdirectory.initialValue}
                   placeholder="Subdirectory"
+                  onChange={handleSubdirectoryChange}
                 />
+                {/* Show validation error for spaces */}
                 <p className="text-red-500 text-sm">
-                  {fields.subdirectory.errors}
+                  {subdirectoryError || fields.subdirectory.errors}
                 </p>
               </div>
               <div className="grid gap-2">

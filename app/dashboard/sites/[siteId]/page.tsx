@@ -49,6 +49,11 @@ async function getData(userId: string, siteId: string) {
       title: true,
       createdAt: true,
       id: true,
+      Site: {
+        select: {
+          subdirectory: true,
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
@@ -56,6 +61,21 @@ async function getData(userId: string, siteId: string) {
   });
 
   return data;
+}
+
+async function getSiteData(userId: string, siteId: string) {
+  const siteData = await prisma.site.findUnique({
+    where: {
+      userId: userId,
+      id: siteId,
+    },
+    select: {
+      subdirectory: true,
+      id: true,
+    },
+  });
+
+  return siteData;
 }
 
 interface Params {
@@ -71,23 +91,32 @@ export default async function SiteIdRoute({ params }: { params: Params }) {
   }
 
   const data = await getData(user.id, params.siteId);
+  const siteData = await getSiteData(user.id, params.siteId);
   return (
     <>
       <div className="flex w-full justify-end gap-x-4">
         <Button asChild variant="secondary">
-          <Link href={"#"}>
+          <Link
+            href={
+              siteData && siteData.subdirectory
+                ? `/blog/${siteData.subdirectory}`
+                : "#"
+            }
+          >
             <Book className="mr-2 size-4" />
-            View Blog
+            {siteData && siteData.subdirectory
+              ? "View Blog"
+              : "No Blog Available"}
           </Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link href={`/dashboard/sites/${params.siteId}/settings`}>
+          <Link href={`/dashboard/sites/${siteData?.id}/settings`}>
             <Settings className="mr-2 size-4" />
             Settings
           </Link>
         </Button>
         <Button asChild>
-          <Link href={`/dashboard/sites/${params.siteId}/create`}>
+          <Link href={`/dashboard/sites/${siteData?.id}/create`}>
             <PlusCircle className="mr-2 size-4" />
             Create Artical
           </Link>
@@ -99,7 +128,7 @@ export default async function SiteIdRoute({ params }: { params: Params }) {
           description="You currently dont have any Articals please create a Artical to get
             started"
           buttonText="Create Artical"
-          buttonLink={`/dashboard/sites/${params.siteId}/create`}
+          buttonLink={`/dashboard/sites/${siteData?.id}/create`}
         />
       ) : (
         <Card className="mt-6">
@@ -160,7 +189,7 @@ export default async function SiteIdRoute({ params }: { params: Params }) {
                           <DropdownMenuSeparator />
                           <DropdownMenuItem asChild>
                             <Link
-                              href={`/dashboard/sites/${params.siteId}/${item.id}`}
+                              href={`/dashboard/sites/${siteData?.id}/${item.id}`}
                             >
                               <EditIcon />
                               Edit
@@ -168,7 +197,7 @@ export default async function SiteIdRoute({ params }: { params: Params }) {
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link
-                              href={`/dashboard/sites/${params.siteId}/${item.id}/delete`}
+                              href={`/dashboard/sites/${siteData?.id}/${item.id}/delete`}
                             >
                               <Trash2 />
                               Delete

@@ -148,8 +148,8 @@ export default function ArticalCreation({
                 <Image
                   src={imageUrl}
                   alt="uploases image"
-                  className="object-cover w-[250px] h-[250px] rounded-lg"
-                  width={250}
+                  className="object-cover w-[300px] h-[250px] rounded-lg"
+                  width={300}
                   height={250}
                 />
               ) : (

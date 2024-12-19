@@ -62,7 +62,7 @@ export default async function SitesRoute() {
                 alt={item.name}
                 className=" object-cover w-full h-[200px]"
                 width={400}
-                height={200}
+                height={300}
               />
               <CardHeader>
                 <CardTitle className="truncate">{item.name}</CardTitle>
