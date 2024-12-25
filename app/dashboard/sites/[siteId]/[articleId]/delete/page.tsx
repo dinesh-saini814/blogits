@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function DeleteForm({
-  params,
-}: {
-  params: { articleId: string; siteId: string };
-}) {
+interface Params {
+  siteId: string;
+  articleId: string;
+}
+
+export default function DeleteForm({ params }: { params: Params }) {
   return (
     <div className="flex flex-1 items-center justify-center h-full">
       <Card className="max-w-xl">

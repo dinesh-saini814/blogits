@@ -26,11 +26,12 @@ async function getArticleData(postId: string) {
   return data;
 }
 
-export default async function EditRoute({
-  params,
-}: {
-  params: { articleId: string; siteId: string };
-}) {
+interface Params {
+  siteId: string;
+  articleId: string;
+}
+
+export default async function EditRoute({ params }: { params: Params }) {
   const data = await getArticleData(params.articleId);
   return (
     <div>
