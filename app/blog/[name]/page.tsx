@@ -71,12 +71,12 @@ export default async function BlogPage(props: {
             <Image
               src={item.imageUrl ?? DefaultImage}
               alt={item.title}
-              className=" object-cover w-full h-[250px] rounded-lg"
+              className=" object-cover w-full h-[270px] rounded-lg"
               width={400}
-              height={300}
+              height={320}
             />
-            <CardHeader>
-              <div className="flex gap-2 items-center">
+            <CardHeader className="flex flex-col gap-4">
+              <div className="flex gap-2 items-center ">
                 <Clock className="size-4 opacity-50" />
                 <p className="text-sm text-gray-500">
                   {new Intl.DateTimeFormat("en-US", {
@@ -85,7 +85,7 @@ export default async function BlogPage(props: {
                 </p>
               </div>
               <CardTitle className=" line-clamp-2">{item.title}</CardTitle>
-              <CardDescription className=" line-clamp-2">
+              <CardDescription className=" line-clamp-2 ">
                 {item.smallDescription}
               </CardDescription>
             </CardHeader>
