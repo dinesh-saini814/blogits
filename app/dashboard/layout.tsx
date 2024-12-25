@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import Logo from "@/public/logo.png";
+import Logo from "@/public/logo.svg";
 import Image from "next/image";
 import DashboardItems from "../components/dashboard/DashboardItems";
 import { DollarSign, Globe, Home, LogOutIcon } from "lucide-react";
@@ -49,7 +49,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 alt="logo"
                 width={100}
                 height={100}
-                className="size-9"
+                className="size-9 dark:invert"
               />
               <h3 className="text-2xl">blogit</h3>
             </Link>
