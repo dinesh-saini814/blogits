@@ -64,11 +64,12 @@ async function getData(userId: string, siteId: string) {
   return data;
 }
 
-interface Params {
-  siteId: string;
-}
+export default async function SiteIdRoute(props: {
+  params: Promise<{ siteId: string }>;
+}) {
+  const params = await props.params;
+  const { siteId } = params;
 
-export default async function SiteIdRoute({ params }: { params: Params }) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -76,7 +77,7 @@ export default async function SiteIdRoute({ params }: { params: Params }) {
     return redirect("/api/auth/login");
   }
 
-  const data = await getData(user.id, params.siteId);
+  const data = await getData(user.id, siteId);
 
   return (
     <>
