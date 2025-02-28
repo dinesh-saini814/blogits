@@ -15,8 +15,8 @@ export function Cards() {
       <h1 className="text-3xl px-4 font-semibold mb-8">
         Productivity Features
       </h1>
-      <div className="flex gap-2 mx-auto px-4">
-        <Card className="w-1/2 border flex flex-col justify-between gap-4">
+      <div className="sm:flex gap-2 mx-auto px-4">
+        <Card className="w-full sm:w-1/2 border flex flex-col justify-between gap-4 ">
           <CardHeader>
             <CardTitle className="text-xl mb-3">
               Free and premium plans for startups of all sizes.
@@ -33,8 +33,8 @@ export function Cards() {
             </Button>
           </CardFooter>
         </Card>
-        <div className="flex flex-col items-center justify-between gsp-2 w-1/2 ">
-          <Card>
+        <div className="flex flex-col items-center justify-between gap-2 w-full sm:w-1/2 ">
+          <Card className="mt-2 sm:mt-0">
             <CardHeader className="mb-5">
               <CardTitle className="text-xl mb-4">
                 Pre-designed startup templates
