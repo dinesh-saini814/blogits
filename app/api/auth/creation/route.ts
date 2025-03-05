@@ -16,6 +16,8 @@ export async function GET() {
     },
   });
 
+  // Create a new user if they don't exist
+
   if (!dbUser) {
     dbUser = await prisma.user.create({
       data: {
