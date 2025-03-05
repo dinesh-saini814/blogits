@@ -10,9 +10,9 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.12.3",
     "@conform-to/react": "^1.2.2",
     "@conform-to/zod": "^1.2.2",
-    "@kinde-oss/kinde-auth-nextjs": "^2.4.6",
     "@prisma/client": "^6.0.0",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",

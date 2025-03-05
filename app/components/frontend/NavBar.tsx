@@ -1,13 +1,10 @@
 import { Button } from "@/components/ui/button";
-import {
-  LoginLink,
-  RegisterLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
 import Link from "next/link";
 import React from "react";
 import { ThemeToggle } from "../dashboard/ThemeToggle";
 import Image from "next/image";
 import Logo from "@/public/logo.svg";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 export default async function NavBar() {
   return (
@@ -29,12 +26,19 @@ export default async function NavBar() {
       </div>
       <nav className="hidden md:flex md:justify-end md:space-x-4 ">
         <ThemeToggle />
-        <LoginLink>
-          <Button variant={"secondary"}>Sign in</Button>
-        </LoginLink>
-        <RegisterLink>
+        {/* Redirecting to /api/auth/creation before /dashboard */}
+        <SignInButton
+          signUpForceRedirectUrl={"/api/auth/creation"}
+          mode="modal"
+        >
+          <Button variant="secondary">Sign in</Button>
+        </SignInButton>
+        <SignUpButton
+          signInForceRedirectUrl={"/api/auth/creation"}
+          mode="modal"
+        >
           <Button>Sign up</Button>
-        </RegisterLink>
+        </SignUpButton>
       </nav>
     </div>
   );

@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import Logo from "@/public/logo.svg";
 import Image from "next/image";
 import DashboardItems from "../components/dashboard/DashboardItems";
-import { DollarSign, Globe, Home, LogOutIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import { ThemeToggle } from "../components/dashboard/ThemeToggle";
 import {
   DropdownMenu,
@@ -13,27 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { SignOutButton } from "@clerk/nextjs";
 
-export const navLink = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: Home,
-  },
-  {
-    name: "Sites",
-    href: "/dashboard/sites",
-    icon: Globe,
-  },
-  {
-    name: "Pricing",
-    href: "/dashboard/pricing",
-    icon: DollarSign,
-  },
-];
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <section className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -73,7 +54,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem>
-                  <LogoutLink>Logout</LogoutLink>
+                  <SignOutButton>
+                    <button>Sign Out</button>
+                  </SignOutButton>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

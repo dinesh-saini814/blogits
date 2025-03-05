@@ -25,7 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import {
   Book,
   EditIcon,
@@ -36,7 +36,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 async function getData(userId: string, siteId: string) {
   const data = await prisma.site.findUnique({
@@ -70,14 +69,11 @@ export default async function SiteIdRoute(props: {
   const params = await props.params;
   const { siteId } = params;
 
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const { userId, redirectToSignIn } = await auth();
 
-  if (!user) {
-    return redirect("/api/auth/login");
-  }
+  if (!userId) return redirectToSignIn();
 
-  const data = await getData(user.id, siteId);
+  const data = await getData(userId, siteId);
 
   return (
     <>

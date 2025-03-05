@@ -1,11 +1,7 @@
 import Image from "next/image";
-
-import {
-  LoginLink,
-  RegisterLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
 import { Button } from "@/components/ui/button";
 import HeroImage from "@/public/heroImage.png";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 export function HeroPage() {
   return (
@@ -25,12 +21,12 @@ export function HeroPage() {
               share your stories with the world.
             </p>
             <div className="flex-center gap-4 w-full mt-5 ">
-              <LoginLink>
+              <SignInButton mode="modal">
                 <Button variant={"secondary"}>Sign in</Button>
-              </LoginLink>
-              <RegisterLink>
+              </SignInButton>
+              <SignUpButton mode="modal">
                 <Button>Sign up</Button>
-              </RegisterLink>
+              </SignUpButton>
             </div>
           </div>
 

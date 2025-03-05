@@ -31,7 +31,7 @@ async function getData(userId: string) {
 
 export default async function PricingPage() {
   const user = await requireUser();
-  const data = await getData(user.id);
+  const data = await getData(user);
 
   async function createCustomerPortal() {
     "use server";

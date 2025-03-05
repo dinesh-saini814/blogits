@@ -1,14 +1,15 @@
 "use client";
-import { navLink } from "@/app/dashboard/layout";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { navLinks } from "./navLinks";
 
 const DashboardItems = () => {
   const pathName = usePathname();
   return (
     <>
-      {navLink.map((item, index) => (
+      {navLinks.map((item, index) => (
         <Link
           key={index}
           href={item.href}

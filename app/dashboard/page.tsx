@@ -39,7 +39,7 @@ async function getData(userId: string) {
 
 export default async function DashboardIndexPage() {
   const user = await requireUser();
-  const { sites, articles } = await getData(user.id);
+  const { sites, articles } = await getData(user);
 
   return (
     <div>

@@ -14,7 +14,7 @@ export async function CreateSiteAction(prevState: any, formData: FormData) {
   const [subStatus, sites] = await Promise.all([
     prisma.subscription.findUnique({
       where: {
-        userId: user.id,
+        userId: user,
       },
       select: {
         status: true,
@@ -22,7 +22,7 @@ export async function CreateSiteAction(prevState: any, formData: FormData) {
     }),
     prisma.site.findMany({
       where: {
-        userId: user.id,
+        userId: user,
       },
     }),
   ]);
@@ -62,7 +62,7 @@ export async function CreateSiteAction(prevState: any, formData: FormData) {
         description: submission.value.description,
         name: submission.value.name,
         subdirectory: submission.value.subdirectory,
-        userId: user.id,
+        userId: user,
       },
     });
   }
@@ -87,7 +87,7 @@ export async function CreatePostAction(prevState: any, formData: FormData) {
       articalContent: submission.value.articalContent,
       imageUrl: submission.value.coverImage,
 
-      userId: user.id,
+      userId: user,
       siteId: formData.get("siteId") as string,
     },
   });
@@ -108,7 +108,7 @@ export async function UpdatePostAction(prevState: any, formData: FormData) {
 
   const data = await prisma.post.update({
     where: {
-      userId: user.id,
+      userId: user,
       id: formData.get("articleId") as string,
     },
     data: {
@@ -128,7 +128,7 @@ export async function DeletePostAction(formData: FormData) {
 
   await prisma.post.delete({
     where: {
-      userId: user.id,
+      userId: user,
       id: formData.get("articleId") as string,
     },
   });
@@ -141,7 +141,7 @@ export async function UpdateImage(formData: FormData) {
 
   const data = await prisma.site.update({
     where: {
-      userId: user.id,
+      userId: user,
       id: formData.get("siteId") as string,
     },
     data: {
@@ -157,7 +157,7 @@ export async function DeleteSiteAction(formData: FormData) {
 
   await prisma.site.delete({
     where: {
-      userId: user.id,
+      userId: user,
       id: formData.get("siteId") as string,
     },
   });
@@ -170,7 +170,7 @@ export async function CreateSubscription() {
 
   let stripeUserId = await prisma.user.findUnique({
     where: {
-      id: (await user).id,
+      id: await user,
     },
     select: {
       customerId: true,
@@ -187,7 +187,7 @@ export async function CreateSubscription() {
 
     stripeUserId = await prisma.user.update({
       where: {
-        id: (await user).id,
+        id: await user,
       },
       data: {
         customerId: stripeCustomer.id,

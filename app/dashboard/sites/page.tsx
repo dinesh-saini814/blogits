@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -15,6 +14,7 @@ import React from "react";
 import DefaultImage from "@/public/default.png";
 import Image from "next/image";
 import EmptyState from "@/app/components/dashboard/EmptyState";
+import { requireUser } from "@/app/utils/requireUser";
 
 async function fetchSites(userId: string) {
   const data = await prisma.site.findMany({
@@ -30,12 +30,12 @@ async function fetchSites(userId: string) {
 }
 
 export default async function SitesRoute() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const user = await requireUser();
+
   if (!user) {
     return redirect("/api/auth/login");
   }
-  const data = await fetchSites(user.id);
+  const data = await fetchSites(user);
   return (
     <>
       <div className="flex w-full justify-end">
