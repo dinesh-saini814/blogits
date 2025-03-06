@@ -27,16 +27,10 @@ export default async function NavBar() {
       <nav className="hidden md:flex md:justify-end md:space-x-4 ">
         <ThemeToggle />
         {/* Redirecting to /api/auth/creation before /dashboard */}
-        <SignInButton
-          signUpForceRedirectUrl={"/api/auth/creation"}
-          mode="modal"
-        >
+        <SignInButton forceRedirectUrl={"/api/auth/creation"} mode="modal">
           <Button variant="secondary">Sign in</Button>
         </SignInButton>
-        <SignUpButton
-          signInForceRedirectUrl={"/api/auth/creation"}
-          mode="modal"
-        >
+        <SignUpButton forceRedirectUrl={"/api/auth/creation"} mode="modal">
           <Button>Sign up</Button>
         </SignUpButton>
       </nav>
