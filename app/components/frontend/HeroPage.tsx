@@ -21,10 +21,16 @@ export function HeroPage() {
               share your stories with the world.
             </p>
             <div className="flex-center gap-4 w-full mt-5 ">
-              <SignInButton mode="modal">
+              <SignInButton
+                forceRedirectUrl={"/api/auth/creation"}
+                mode="modal"
+              >
                 <Button variant={"secondary"}>Sign in</Button>
               </SignInButton>
-              <SignUpButton mode="modal">
+              <SignUpButton
+                forceRedirectUrl={"/api/auth/creation"}
+                mode="modal"
+              >
                 <Button>Sign up</Button>
               </SignUpButton>
             </div>

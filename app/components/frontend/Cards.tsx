@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
+import { SignUpButton } from "@clerk/nextjs";
 import React from "react";
 
 export function Cards() {
@@ -29,7 +29,12 @@ export function Cards() {
           </CardHeader>
           <CardFooter>
             <Button className="rounded-full mt-14" asChild>
-              <Link href="/dashboard">Try Demmo</Link>
+              <SignUpButton
+                forceRedirectUrl={"/api/auth/creation"}
+                mode="modal"
+              >
+                <button>Try Demmo</button>
+              </SignUpButton>
             </Button>
           </CardFooter>
         </Card>
