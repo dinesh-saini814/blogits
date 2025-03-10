@@ -31,6 +31,7 @@ export function Cards() {
             <Button className="rounded-full mt-14" asChild>
               <SignUpButton
                 forceRedirectUrl={"/api/auth/creation"}
+                fallbackRedirectUrl={"/api/auth/creation"}
                 mode="modal"
               >
                 <button>Try Demmo</button>

@@ -22,12 +22,14 @@ export function HeroPage() {
             </p>
             <div className="flex-center gap-4 w-full mt-5 ">
               <SignInButton
+                fallbackRedirectUrl={"/api/auth/creation"}
                 forceRedirectUrl={"/api/auth/creation"}
                 mode="modal"
               >
                 <Button variant={"secondary"}>Sign in</Button>
               </SignInButton>
               <SignUpButton
+                fallbackRedirectUrl={"/api/auth/creation"}
                 forceRedirectUrl={"/api/auth/creation"}
                 mode="modal"
               >
